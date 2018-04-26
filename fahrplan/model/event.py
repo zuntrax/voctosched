@@ -36,7 +36,7 @@ class Event(XmlSerializable):
         self.persons = persons
         self.links = links or {}
         self.attachments = attachments or {}
-        self.download_url = download_url
+        self.download_url = download_url.replace('ftp://', 'https://')
         self.room = None
         if callable(slug):
             self.slug = slug(self)

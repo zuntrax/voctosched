@@ -9,11 +9,17 @@ from fahrplan.model.event import Event
 
 class StandardSlugGenerator:
     def __init__(self, conference: Conference):
-        self.acronym = conference.acronym
+        if isinstance(conference, str):
+            self.acronym = conference
+        else:
+            self.acronym = conference.acronym
 
     def __call__(self, event: Event):
-        title = StandardSlugGenerator.normalize_name(event.title)
-        return f"{self.acronym}-{event.id}-{title}"[:240]
+        return self.generate(event.id, event.title)
+
+    def generate(self, event_id, event_title):
+        title = StandardSlugGenerator.normalize_name(event_title)
+        return f"{self.acronym}-{event_id}-{title}"[:240]
 
     @staticmethod
     def normalize_name(name: str):
