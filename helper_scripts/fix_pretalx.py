@@ -8,6 +8,7 @@ from emoji import demojize
 from io import StringIO
 
 from fahrplan.slug import StandardSlugGenerator
+from fahrplan.uuid import uuid
 from util import read_file
 
 
@@ -40,6 +41,8 @@ def fix_tree(tree: ElementTree, acronym: str = None):
         event_title = event.find('title').text
         event_slug = slug.generate(event_id, event_title)
         event.find('slug').text = event_slug
+
+        event.attrib['guid'] = uuid(event_id, event_title)
 
     return tree
 
